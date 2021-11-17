@@ -153,6 +153,8 @@ COMMAND_SELECT_CHANNEL = f"{PREFIX_COMMANDS}selectChannel"
 COMMAND_LOCATE = f"{PREFIX_COMMANDS}Locate"
 COMMAND_CHARGE = f"{PREFIX_COMMANDS}Charge"
 
+SERVICE_CALL_LIMIT = 2  # Wait 2 seconds for services to finish
+
 TRAITS = []
 
 
@@ -265,6 +267,7 @@ class BrightnessTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
 
@@ -360,6 +363,7 @@ class OnOffTrait(_Trait):
             {ATTR_ENTITY_ID: self.state.entity_id},
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -465,6 +469,7 @@ class ColorSettingTrait(_Trait):
                 {ATTR_ENTITY_ID: self.state.entity_id, light.ATTR_COLOR_TEMP: temp},
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         elif "spectrumRGB" in params["color"]:
@@ -480,6 +485,7 @@ class ColorSettingTrait(_Trait):
                 {ATTR_ENTITY_ID: self.state.entity_id, light.ATTR_HS_COLOR: color},
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         elif "spectrumHSV" in params["color"]:
@@ -497,6 +503,7 @@ class ColorSettingTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
 
@@ -533,6 +540,7 @@ class SceneTrait(_Trait):
             {ATTR_ENTITY_ID: self.state.entity_id},
             blocking=self.state.domain != script.DOMAIN,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -567,6 +575,7 @@ class DockTrait(_Trait):
             {ATTR_ENTITY_ID: self.state.entity_id},
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -607,6 +616,7 @@ class LocatorTrait(_Trait):
             {ATTR_ENTITY_ID: self.state.entity_id},
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -728,6 +738,7 @@ class StartStopTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
             else:
                 await self.hass.services.async_call(
@@ -736,6 +747,7 @@ class StartStopTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
         elif command == COMMAND_PAUSEUNPAUSE:
             if params["pause"]:
@@ -745,6 +757,7 @@ class StartStopTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
             else:
                 await self.hass.services.async_call(
@@ -753,6 +766,7 @@ class StartStopTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
 
     async def _execute_cover(self, command, data, params, challenge):
@@ -773,6 +787,7 @@ class StartStopTrait(_Trait):
                         {ATTR_ENTITY_ID: self.state.entity_id},
                         blocking=True,
                         context=data.context,
+                        limit=SERVICE_CALL_LIMIT,
                     )
                 else:
                     raise SmartHomeError(
@@ -990,6 +1005,7 @@ class TemperatureSettingTrait(_Trait):
                 {ATTR_ENTITY_ID: self.state.entity_id, ATTR_TEMPERATURE: temp},
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         elif command == COMMAND_THERMOSTAT_TEMPERATURE_SET_RANGE:
@@ -1038,6 +1054,7 @@ class TemperatureSettingTrait(_Trait):
                 svc_data,
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         elif command == COMMAND_THERMOSTAT_SET_MODE:
@@ -1051,6 +1068,7 @@ class TemperatureSettingTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
                 return
 
@@ -1061,6 +1079,7 @@ class TemperatureSettingTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
                 return
 
@@ -1074,6 +1093,7 @@ class TemperatureSettingTrait(_Trait):
                     },
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
                 return
 
@@ -1086,6 +1106,7 @@ class TemperatureSettingTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
 
@@ -1167,6 +1188,7 @@ class HumiditySettingTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
 
@@ -1216,6 +1238,7 @@ class LockUnlockTrait(_Trait):
             {ATTR_ENTITY_ID: self.state.entity_id},
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -1339,6 +1362,7 @@ class ArmDisArmTrait(_Trait):
             },
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -1427,6 +1451,7 @@ class FanSpeedTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         if domain == fan.DOMAIN:
@@ -1439,6 +1464,7 @@ class FanSpeedTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
     async def execute_reverse(self, data, params):
@@ -1455,6 +1481,7 @@ class FanSpeedTrait(_Trait):
                 {ATTR_ENTITY_ID: self.state.entity_id, fan.ATTR_DIRECTION: direction},
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
     async def execute(self, command, data, params, challenge):
@@ -1596,6 +1623,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
             return
 
@@ -1610,6 +1638,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
             return
 
@@ -1624,6 +1653,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
             return
 
@@ -1638,6 +1668,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
             return
 
@@ -1652,6 +1683,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
             return
 
@@ -1667,6 +1699,7 @@ class ModesTrait(_Trait):
                 },
                 blocking=True,
                 context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
         _LOGGER.info(
@@ -1741,6 +1774,7 @@ class InputSelectorTrait(_Trait):
             },
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -1883,7 +1917,12 @@ class OpenCloseTrait(_Trait):
                 _verify_pin_challenge(data, self.state, challenge)
 
             await self.hass.services.async_call(
-                cover.DOMAIN, service, svc_params, blocking=True, context=data.context
+                cover.DOMAIN,
+                service,
+                svc_params,
+                blocking=True,
+                context=data.context,
+                limit=SERVICE_CALL_LIMIT,
             )
 
 
@@ -1947,6 +1986,7 @@ class VolumeTrait(_Trait):
             },
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
     async def _execute_set_volume(self, data, params):
@@ -1983,6 +2023,7 @@ class VolumeTrait(_Trait):
                     {ATTR_ENTITY_ID: self.state.entity_id},
                     blocking=True,
                     context=data.context,
+                    limit=SERVICE_CALL_LIMIT,
                 )
         else:
             raise SmartHomeError(ERR_NOT_SUPPORTED, "Command not supported")
@@ -2005,6 +2046,7 @@ class VolumeTrait(_Trait):
             },
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
     async def execute(self, command, data, params, challenge):
@@ -2167,6 +2209,7 @@ class TransportControlTrait(_Trait):
             service_attrs,
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
@@ -2272,6 +2315,7 @@ class ChannelTrait(_Trait):
             },
             blocking=True,
             context=data.context,
+            limit=SERVICE_CALL_LIMIT,
         )
 
 
